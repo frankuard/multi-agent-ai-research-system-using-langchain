@@ -13,5 +13,11 @@ llm = ChatGroq(
     temperature=0
 )
 
+# 1st agent
 
+def build_search_agent():
+    return create_agent(
+        model= llm,
+        tools= [web_search]
+    )
 
