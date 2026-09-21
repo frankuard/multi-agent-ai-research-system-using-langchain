@@ -1,6 +1,17 @@
+# LangChain
 langchain
 langchain-core
 langchain-groq
+
+# Agents & tools
+tavily-python
+
+# Web scraping
+beautifulsoup4
+requests
+
+# Environment variables
 python-dotenv
-langchain-community
-langchain-tools
+
+# Terminal output
+rich
