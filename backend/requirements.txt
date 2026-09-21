@@ -15,3 +15,7 @@ python-dotenv
 
 # Terminal output
 rich
+
+# Web API
+fastapi
+uvicorn
