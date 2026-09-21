@@ -23,7 +23,7 @@ def build_search_agent():
 
 #2nd agent
 
-def build_search_reader():
+def build_reader_agent():
     return create_agent(
         model= llm,
         tools=[scrape_url]
