@@ -1,13 +1,18 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from pipeline import run_research_pipeline
 
-app = FastAPI(title="Multi-Agent AI Research API")
+app = FastAPI()
 
-# Enable CORS for frontend development
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:5174",
+        "http://127.0.0.1:5174",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -15,22 +20,8 @@ app.add_middleware(
 
 class ResearchRequest(BaseModel):
     topic: str
-
-@app.get("/")
-def read_root():
-    return {"status": "ok", "message": "Multi-Agent AI Research API is running"}
-
-@app.post("/research")
-def research(request: ResearchRequest):
-    """
-    Exposes /research endpoint.
-    Pipeline integration can be triggered here.
-    """
-    if not request.topic:
-        raise HTTPException(status_code=400, detail="Topic cannot be empty")
     
-    return {
-        "status": "pending",
-        "topic": request.topic,
-        "message": "Endpoint ready for pipeline execution"
-    }
+@app.post("/research")
+def research(req: ResearchRequest):
+    result = run_research_pipeline(req.topic)
+    return result
