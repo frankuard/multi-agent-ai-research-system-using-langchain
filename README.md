@@ -158,19 +158,5 @@ Once both are running, go to **`http://localhost:5173`**, enter any research top
 
 ---
 
-## 🛠️ Troubleshooting
-
-- **FastAPI / Connection Error**:
-  - Make sure the backend server is running on port `8000`.
-  - Check that the URL in `frontend/src/apis/api.js` points to `http://localhost:8000`.
-- **API Key Errors (401 / Unauthorized)**:
-  - Verify your `GROQ_API_KEY` and `TAVILY_API_KEY` in `backend/.env` have no extra spaces or quotation marks.
-- **PowerShell Execution Policy Error**:
-  - Run: `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` and then run `.venv\Scripts\Activate.ps1`.
-- **Port Conflicts**:
-  - If port 8000 is occupied: `uvicorn main:app --reload --port 8001` (remember to update `API_URL` in `frontend/src/apis/api.js`).
-
----
-
 ##  🙋‍♂️ Author
 #### Roshan Karki
