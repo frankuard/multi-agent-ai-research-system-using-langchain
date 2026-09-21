@@ -172,5 +172,5 @@ Once both are running, go to **`http://localhost:5173`**, enter any research top
 
 ---
 
-## 📜 License
-MIT License. Built with ❤️ using LangChain, Groq, Tavily, and React.
+##  🙋‍♂️ Author
+#### Roshan Karki

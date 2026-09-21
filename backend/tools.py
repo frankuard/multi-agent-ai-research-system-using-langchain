@@ -7,23 +7,35 @@ from dotenv import load_dotenv
 load_dotenv()
 from rich import print
 
-tavily = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
+import time
+
+def get_tavily_client():
+    return TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
 
 @tool
 def web_search(query : str) -> str:
     """
     Search the web for recent and reliable information on a topic. Returns Titles, URLS, Snippets
     """ 
-    results = tavily.search(query=query,max_results=5)
-    
-    out = []
-    
-    for r in results['results']:
-        out.append(
-            f"'Title':{r['title']}\nURL: {r['url']}\nSnippet: {r['content'][:300]}\n"
-        )
-        
-    return "\n----\n".join(out)
+    last_err = None
+    for attempt in range(3):
+        try:
+            client = get_tavily_client()
+            results = client.search(query=query, max_results=5)
+            
+            out = []
+            for r in results.get('results', []):
+                out.append(
+                    f"'Title':{r.get('title', '')}\nURL: {r.get('url', '')}\nSnippet: {r.get('content', '')[:300]}\n"
+                )
+            if out:
+                return "\n----\n".join(out)
+            return "No search results returned for query."
+        except Exception as e:
+            last_err = e
+            time.sleep(1)
+            
+    return f"Could not complete web search: {str(last_err)}"
 
 
 @tool

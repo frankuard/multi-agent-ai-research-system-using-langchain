@@ -4,7 +4,6 @@ import SearchForm from './components/SearchForm';
 import PipelineProgress from './components/PipelineProgress';
 import ReportView from './components/ReportView';
 import CriticView from './components/CriticView';
-import RawDataDrawer from './components/RawDataDrawer';
 import { AlertCircle, RotateCcw } from 'lucide-react';
 
 export const App = () => {
@@ -13,7 +12,6 @@ export const App = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [researchData, setResearchData] = useState(null);
-  const [viewMode, setViewMode] = useState('both'); // 'both', 'report', 'critic'
 
   const handleResearch = async (searchTopic) => {
     if (!searchTopic || loading) return;
@@ -44,13 +42,13 @@ export const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-zinc-100 flex flex-col font-sans relative">
-      {/* Soft spotlight radial gradient from top center like reference image */}
+    <div className="min-h-screen bg-[#0e0e11] text-zinc-100 flex flex-col font-sans relative">
+      {/* Soft spotlight radial gradient from top center */}
       <div className="fixed inset-0 bg-spotlight pointer-events-none"></div>
 
-      {/* Main Container with subtle vertical dashed guide lines like reference screenshot */}
+      {/* Main Container with subtle vertical dashed guide lines */}
       <div className="flex-1 w-full max-w-6xl mx-auto flex flex-col dashed-guide-left dashed-guide-right relative z-10 px-4 sm:px-8">
-        {/* Simple Top Bar - just 'AI Research Assistant' */}
+        {/* Simple Top Bar */}
         <header className="w-full py-6 flex items-center justify-between border-b border-zinc-900">
           <span
             onClick={handleReset}
@@ -62,7 +60,7 @@ export const App = () => {
           {researchData && (
             <button
               onClick={handleReset}
-              className="text-xs text-zinc-400 hover:text-white flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 transition-colors"
+              className="text-xs text-zinc-400 hover:text-white flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-zinc-900 border border-zinc-800 transition-colors"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>New Search</span>
@@ -82,7 +80,7 @@ export const App = () => {
             </p>
           </div>
 
-          {/* Search Form (styled like the reference screenshot) */}
+          {/* Search Form */}
           <SearchForm
             topic={topic}
             setTopic={setTopic}
@@ -114,71 +112,14 @@ export const App = () => {
             </div>
           )}
 
-          {/* Results Section */}
+          {/* Results Section - Direct sequential display without filter tabs */}
           {researchData && (
-            <div className="mt-10 space-y-8 max-w-4xl mx-auto w-full">
-              {/* Tab Selector */}
-              <div className="flex items-center justify-between border-b border-zinc-800/80 pb-4">
-                <div className="flex items-center gap-1.5 p-1 bg-[#141417] border border-zinc-800 rounded-xl">
-                  <button
-                    type="button"
-                    onClick={() => setViewMode('both')}
-                    className={`px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                      viewMode === 'both'
-                        ? 'bg-zinc-800 text-white shadow-sm'
-                        : 'text-zinc-400 hover:text-white'
-                    }`}
-                  >
-                    All Results
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setViewMode('report')}
-                    className={`px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                      viewMode === 'report'
-                        ? 'bg-zinc-800 text-white shadow-sm'
-                        : 'text-zinc-400 hover:text-white'
-                    }`}
-                  >
-                    Report & Sources
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setViewMode('critic')}
-                    className={`px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                      viewMode === 'critic'
-                        ? 'bg-zinc-800 text-white shadow-sm'
-                        : 'text-zinc-400 hover:text-white'
-                    }`}
-                  >
-                    Critic Review
-                  </button>
-                </div>
+            <div className="mt-10 space-y-10 max-w-5xl mx-auto w-full">
+              {/* Synthesized Research Report with Big Sources & Download */}
+              <ReportView report={researchData.report} topic={activeTopic} />
 
-                <button
-                  type="button"
-                  onClick={handleReset}
-                  className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
-                >
-                  Clear Results
-                </button>
-              </div>
-
-              {/* Report View with Sources & Download */}
-              {(viewMode === 'both' || viewMode === 'report') && (
-                <ReportView report={researchData.report} topic={activeTopic} />
-              )}
-
-              {/* Critic Review View */}
-              {(viewMode === 'both' || viewMode === 'critic') && (
-                <CriticView feedback={researchData.feedback} />
-              )}
-
-              {/* Raw Data Drawer */}
-              <RawDataDrawer
-                searchResults={researchData.search_results}
-                scrapedContent={researchData.scraped_content}
-              />
+              {/* Clean, Large Critic Feedback & Review */}
+              <CriticView feedback={researchData.feedback} />
             </div>
           )}
         </main>

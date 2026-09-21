@@ -1,3 +1,8 @@
+import sys
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 from agents import build_search_agent, build_reader_agent, writer_chain,critic_chain
 
 def run_research_pipeline(topic: str) -> dict:
