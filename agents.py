@@ -21,3 +21,10 @@ def build_search_agent():
         tools= [web_search]
     )
 
+#2nd agent
+
+def build_search_reader():
+    return create_agent(
+        model= llm,
+        tools=[scrape_url]
+    )
